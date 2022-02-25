@@ -1,0 +1,1 @@
+export const GET_POKEMON = 'Home/GET_POKEMON';
