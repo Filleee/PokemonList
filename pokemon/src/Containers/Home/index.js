@@ -1,59 +1,35 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import PokeCard from "./Components/PokeCard";
 import { Button, Card, Grid } from "@material-ui/core";
+import { getPokemon, getMorePokemon } from "./actions";
 
 const Home = () => {
-  const [pokemons, setPokemons] = useState([]);
-  const [next, setNext] = useState("");
-  const [previous, setPrevious] = useState("");
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    getPokemon();
+    dispatch(getPokemon());
   }, []);
 
-  const getPokemon = async () => {
-    const response = await fetch(
-      "https://pokeapi.co/api/v2/pokemon/?offset=0&limit=20"
-    );
-    const data = await response.json();
-    setPokemons(data.results);
-    setNext(data.next);
-    setPrevious(data.previous);
-  };
+  const homePokemon = useSelector((state) => state.home.pokemon);
+  console.log(homePokemon);
 
-  const nextPage = async () => {
-    const response = await fetch(next);
-    const data = await response.json();
-    setPokemons(data.results);
-    setNext(data.next);
-    setPrevious(data.previous);
-  };
-
-  const prevPage = async () => {
-    const response = await fetch(previous);
-    const data = await response.json();
-    setPokemons(data.results);
-    setNext(data.next);
-    setPrevious(data.previous);
+  const loadMore = async () => {
+    dispatch(getMorePokemon());
   };
 
   return (
     <div className="container">
+      <h1>TEST</h1>
       <Grid container spacing={1}>
-        {pokemons.map((pokemon) => (
-          <PokeCard key={pokemon.name} pokemon={pokemon} />
+        {homePokemon.map((pokemon) => (
+          <Grid key={pokemon.name} item xs={3}>
+            <PokeCard pokemon={pokemon} />
+          </Grid>
         ))}
       </Grid>
-      <Button
-        onClick={prevPage}
-        style={{ margin: 10 }}
-        variant="contained"
-        color="primary"
-      >
-        Prev
-      </Button>
-      <Button onClick={nextPage} variant="contained" color="primary">
-        Next
+      <Button onClick={loadMore} variant="contained" color="primary">
+        Load More
       </Button>
     </div>
   );
