@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PokeCard from "./Components/PokeCard";
-import { Button, Card, Grid } from "@material-ui/core";
+import { Button, Grid } from "@material-ui/core";
 import { getPokemon, getMorePokemon } from "./actions";
 
 const Home = () => {
@@ -9,12 +9,11 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(getPokemon());
-  }, []);
+  }, [dispatch]);
 
   const homePokemon = useSelector((state) => state.home.pokemon);
-  console.log(homePokemon);
 
-  const loadMore = async () => {
+  const loadMore = () => {
     dispatch(getMorePokemon());
   };
 

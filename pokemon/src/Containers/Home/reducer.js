@@ -12,7 +12,6 @@ const homeReducer = (state = initialState, action) =>
     switch (action.type) {
       case SET_POKEMON:
         draft.pokemon = action.pokemon.results;
-        console.log(action.next, "next");
         draft.next = action.next;
         break;
       case SET_MORE_POKEMON:

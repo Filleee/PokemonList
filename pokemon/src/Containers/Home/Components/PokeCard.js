@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -11,9 +10,9 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 
 const PokeCard = ({ pokemon }) => {
+  const navigate = useNavigate();
   const [pokemons, setPokemons] = useState({
     pokemon: [],
-    owned: 0,
   });
 
   useEffect(() => {
@@ -21,13 +20,15 @@ const PokeCard = ({ pokemon }) => {
   }, []);
 
   const getPokemon = async () => {
-    let owned;
     const response = await fetch(`${pokemon.url}`);
     const data = await response.json();
     setPokemons({
       pokemon: data,
-      owned: owned,
     });
+  };
+
+  const goToDetail = () => {
+    navigate(`/detail/${pokemons.pokemon.name}`);
   };
 
   const useStyles = makeStyles({
@@ -53,7 +54,9 @@ const PokeCard = ({ pokemon }) => {
         ) : null}
       </CardContent>
       <CardActions>
-        <Button size="small">Detail</Button>
+        <Button onClick={goToDetail} size="small">
+          Detail
+        </Button>
       </CardActions>
     </Card>
   );
