@@ -34,3 +34,22 @@ export const getCatchChance = () => {
     url: `http://localhost:8000/catch`,
   });
 };
+
+export const getNewNickname = (
+  nickname,
+  prevLastRename,
+  lastRename,
+  renameCounter
+) => {
+  console.log(nickname, prevLastRename, lastRename, renameCounter);
+  return axios.request({
+    method: "POST",
+    url: "http://localhost:8000/rename",
+    data: {
+      pokename: nickname,
+      beforeLastRename: prevLastRename,
+      lastRename,
+      renameCounter,
+    },
+  });
+};

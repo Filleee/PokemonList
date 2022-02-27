@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { getReleaseChance, setRelease, setReleaseChance } from "./actions";
+import {
+  getReleaseChance,
+  setRelease,
+  setReleaseChance,
+  getRename,
+} from "./actions";
 import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@material-ui/core";
 
@@ -35,14 +40,16 @@ const MyPokemon = () => {
     dispatch(setReleaseChance(null));
   }, [chance]);
 
-  const renamePokemon = () => {};
+  const renamePokemon = (pokemon) => {
+    dispatch(getRename(pokemon));
+  };
 
   return (
     <ul>
       {myPokemon.map((pokemon) => (
         <li>
           <img src={pokemon.sprites.front_default} alt="Pokemon"></img>
-          <h1>{pokemon.name}</h1>
+          <h1>{pokemon.nickname}</h1>
           <h2>your pokemon id: {pokemon.myPokemonId}</h2>
           <Button
             onClick={() => doReleasePokemon(pokemon.myPokemonId)}
@@ -51,7 +58,11 @@ const MyPokemon = () => {
           >
             Release
           </Button>
-          <Button onClick={renamePokemon} variant="contained" color="primary">
+          <Button
+            onClick={() => renamePokemon(pokemon)}
+            variant="contained"
+            color="primary"
+          >
             Rename
           </Button>
         </li>

@@ -1,21 +1,30 @@
 import {
-  RENAME,
+  SET_RENAME,
+  GET_RENAME,
   RELEASE,
   GET_RELEASE_CHANCE,
   SET_RELEASE_CHANCE,
   CATCH,
 } from "./constants";
 
-export const setCatch = (pokemon) => {
+export const setCatch = (pokemon, nickname) => {
   return {
     type: CATCH,
+    pokemon,
+    nickname,
+  };
+};
+
+export const getRename = (pokemon) => {
+  return {
+    type: GET_RENAME,
     pokemon,
   };
 };
 
 export const setRename = (pokemonId, nickname) => {
   return {
-    type: RENAME,
+    type: SET_RENAME,
     pokemonId,
     nickname,
   };

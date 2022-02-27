@@ -47,23 +47,19 @@ const init = async () => {
       validate: {
         payload: {
           pokename: Joi.string().required(),
-          beforeLastRename: Joi.number().required().default(0),
-          lastRename: Joi.number().required().default(0),
-          renameCounter: Joi.number().required().default(0),
+          beforeLastRename: Joi.number().optional().default(0),
+          lastRename: Joi.number().optional().default(0),
+          renameCounter: Joi.number().optional().default(0),
         },
       },
     },
     handler: (request, h) => {
       let newNickname;
-      if (renameCounter === 0) {
-        return `${request.payload.pokename}-0`;
-      } else if (renameCounter === 1) {
-        return `${request.payload.pokename}-1`;
-      } else {
-        newNickname = `${request.payload.pokename}-${
-          request.payload.beforeLastRename + request.payload.lastRename
-        }`;
-      }
+      const currNickname = request.payload.pokename.split("-")[0];
+      newNickname = `${currNickname}-${
+        request.payload.beforeLastRename + request.payload.lastRename
+      }`;
+
       return newNickname;
     },
   });
