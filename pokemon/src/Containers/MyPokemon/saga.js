@@ -14,7 +14,6 @@ export function* doGetReleaseChance() {
 
 export function* doGetNewNickname(pokemon) {
   try {
-    console.log(pokemon, "saga");
     const response = yield call(
       getNewNickname,
       pokemon.pokemon.nickname,
@@ -22,7 +21,6 @@ export function* doGetNewNickname(pokemon) {
       pokemon.pokemon.lastRename,
       pokemon.pokemon.renameCounter
     );
-    console.log(pokemon.pokemon.myPokemonId);
     yield put(setRename(pokemon.pokemon.myPokemonId, response.data));
   } catch (error) {
     console.log(error);

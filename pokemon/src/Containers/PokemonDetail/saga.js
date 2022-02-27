@@ -4,10 +4,8 @@ import { setDetail, setCatchChance } from "./actions";
 import { getPokemonDetail, getCatchChance } from "../../API";
 
 export function* doGetDetail(name) {
-  console.log(name);
   try {
     const response = yield call(getPokemonDetail, name.name);
-    console.log(response);
     yield put(setDetail(response));
   } catch (error) {
     console.log(error);

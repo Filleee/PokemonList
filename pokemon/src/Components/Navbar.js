@@ -1,68 +1,82 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import InputBase from "@material-ui/core/InputBase";
+import { useStyles } from "./style";
+import SearchIcon from "@material-ui/icons/Search";
+import { useNavigate } from "react-router-dom";
+import { Link } from "@material-ui/core";
 
 const Navbar = () => {
   const [search, setSearch] = useState("");
+  const classes = useStyles();
+  const navigate = useNavigate();
 
   const updateSearch = (e) => {
     setSearch(e.target.value.toLowerCase());
   };
 
+  const searchPokemon = (e) => {
+    if (e.keyCode === 13) navigate(`/detail/${search}`);
+  };
+
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <Link to={"/"}>
-        <p className="navbar-brand" href="#">
-          PokeList
-        </p>
-      </Link>
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span className="navbar-toggler-icon"></span>
-      </button>
-      <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul className="navbar-nav mr-auto">
-          <li className="nav-item active">
-            <Link to={"/"}>
-              <p className="nav-link" href="#">
-                Home <span className="sr-only">(current)</span>
-              </p>
-            </Link>
-          </li>
-          <li className="nav-item active">
-            <Link to={"/mypokemon"}>
-              <p className="nav-link" href="#">
-                MyPokemon<span className="sr-only">(current)</span>
-              </p>
-            </Link>
-          </li>
-        </ul>
-        <form className="form-inline my-2 my-lg-0">
-          <input
-            onChange={updateSearch}
-            className="form-control mr-sm-2"
-            type="search"
-            placeholder="Enter Name/PokedexID"
-            aria-label="Search"
-          />
-          <Link to={`/detail/${search}`}>
-            <button
-              onClick={() => setSearch(search)}
-              className="btn btn-outline-success my-2 my-sm-0"
-              type="submit"
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography
+            onClick={() => navigate("/")}
+            className={classes.title}
+            variant="h6"
+            noWrap
+          >
+            <Link
+              component="button"
+              variant="body2"
+              color="inherit"
+              onClick={() => {
+                navigate("/");
+              }}
             >
-              Search
-            </button>
-          </Link>
-        </form>
-      </div>
-    </nav>
+              Home
+            </Link>
+          </Typography>
+          <Typography
+            onClick={() => navigate("/mypokemon")}
+            className={classes.title}
+            variant="h6"
+            noWrap
+          >
+            <Link
+              component="button"
+              variant="body2"
+              color="inherit"
+              onClick={() => {
+                navigate("/mypokemon");
+              }}
+            >
+              My Pokemon
+            </Link>
+          </Typography>
+          <div className={classes.search}>
+            <div className={classes.searchIcon}>
+              <SearchIcon />
+            </div>
+            <InputBase
+              placeholder="Search…"
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+              }}
+              inputProps={{ "aria-label": "search" }}
+              onChange={updateSearch}
+              onKeyDown={searchPokemon}
+            />
+          </div>
+        </Toolbar>
+      </AppBar>
+    </div>
   );
 };
 export default Navbar;

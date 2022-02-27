@@ -41,7 +41,6 @@ export const getNewNickname = (
   lastRename,
   renameCounter
 ) => {
-  console.log(nickname, prevLastRename, lastRename, renameCounter);
   return axios.request({
     method: "POST",
     url: "http://localhost:8000/rename",

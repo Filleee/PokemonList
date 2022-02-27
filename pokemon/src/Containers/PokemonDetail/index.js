@@ -3,13 +3,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getDetail, getCatchChance, setCatchChance } from "./actions";
 import { setCatch } from "../MyPokemon/actions";
-import { Button } from "@material-ui/core";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import TextField from "@material-ui/core/TextField";
+import { useStyles } from "./style";
+import {
+  Box,
+  Button,
+  Card,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  TextField,
+  CardActionArea,
+  CardActions,
+  CardContent,
+  Typography,
+} from "@material-ui/core";
 
 const PokemonDetail = () => {
   const { name } = useParams();
@@ -22,7 +31,7 @@ const PokemonDetail = () => {
 
   useEffect(() => {
     dispatch(getDetail(name));
-  }, []);
+  }, [name]);
 
   useEffect(() => {
     if (catchChance === true) {
@@ -30,7 +39,7 @@ const PokemonDetail = () => {
     } else if (catchChance === false) {
       alert("catch failed...");
     }
-    dispatch(setCatchChance(null));
+    if (catchChance !== null) dispatch(setCatchChance(null));
   }, [catchChance]);
 
   const catchPokemon = () => {
@@ -43,22 +52,62 @@ const PokemonDetail = () => {
 
   const handleCatchNickname = () => {
     setOpen(false);
-    // console.log(nickname);
     dispatch(setCatch(detailPokemon, nickname));
-    // dispatch(setCatch(detailPokemon));
   };
 
-  const handleNickname = (e) => {
-    setNickname("TEST");
-    console.log(nickname);
-  };
+  const classes = useStyles();
 
   return (
-    <div className="card-group d-flex justify-content-center">
-      <h1>{detailPokemon.name}</h1>
-      <Button onClick={catchPokemon} variant="contained" color="primary">
-        Catch
-      </Button>
+    <div style={{ marginTop: 20 }}>
+      {detailPokemon.sprites && (
+        <Box display="flex" justifyContent="center">
+          <Card className={classes.root}>
+            <h1>{detailPokemon.name}</h1>
+            <CardActionArea>
+              <img
+                src={detailPokemon.sprites.front_default}
+                className={classes.media}
+                alt="Pokemon"
+              ></img>
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                  Types : <br />
+                  {detailPokemon.types.map((types, index) =>
+                    index === detailPokemon.types.length - 1
+                      ? `${types.type.name}`
+                      : `${types.type.name}, `
+                  )}
+                </Typography>
+              </CardContent>
+              <CardContent>
+                <Typography
+                  align="justify"
+                  gutterBottom
+                  variant="h5"
+                  component="h2"
+                >
+                  Moves : <br />
+                  {detailPokemon.moves.map((moves, index) =>
+                    index === detailPokemon.moves.length - 1
+                      ? `${moves.move.name}`
+                      : `${moves.move.name}, `
+                  )}
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+            <CardActions>
+              <Button
+                onClick={catchPokemon}
+                variant="contained"
+                color="primary"
+              >
+                Catch
+              </Button>
+            </CardActions>
+          </Card>
+        </Box>
+      )}
+
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Catch Success!</DialogTitle>
         <DialogContent>

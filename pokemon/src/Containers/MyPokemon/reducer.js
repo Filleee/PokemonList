@@ -3,7 +3,7 @@ import produce from "immer";
 
 export const initialState = {
   myPokemon: [],
-  releaseChance: 0,
+  releaseChance: null,
 };
 
 let lastId = 0;
@@ -12,8 +12,6 @@ const pokemonReducer = (state = initialState, action) =>
   produce(state, (draft) => {
     switch (action.type) {
       case SET_RENAME:
-        console.log(action.pokemonId);
-        console.log(draft.myPokemon);
         const index = draft.myPokemon.findIndex(
           (todo) => todo.myPokemonId === action.pokemonId
         );
@@ -53,7 +51,6 @@ const pokemonReducer = (state = initialState, action) =>
           lastRename: 0,
           renameCounter: 0,
         });
-        // console.log(action.nickname);
         break;
       case RELEASE:
         const index2 = draft.myPokemon.findIndex(

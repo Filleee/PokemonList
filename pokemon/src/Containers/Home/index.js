@@ -18,8 +18,7 @@ const Home = () => {
   };
 
   return (
-    <div className="container">
-      <h1>TEST</h1>
+    <div style={{ marginTop: 20 }}>
       <Grid container spacing={1}>
         {homePokemon.map((pokemon) => (
           <Grid key={pokemon.name} item xs={3}>
@@ -27,7 +26,12 @@ const Home = () => {
           </Grid>
         ))}
       </Grid>
-      <Button onClick={loadMore} variant="contained" color="primary">
+      <Button
+        style={{ marginTop: 20 }}
+        onClick={loadMore}
+        variant="contained"
+        color="primary"
+      >
         Load More
       </Button>
     </div>

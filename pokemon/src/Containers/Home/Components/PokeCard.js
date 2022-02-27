@@ -6,8 +6,11 @@ import {
   CardActions,
   Button,
   CardMedia,
+  Grid,
+  Typography,
+  Box,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { useStyles } from "./style";
 
 const PokeCard = ({ pokemon }) => {
   const navigate = useNavigate();
@@ -22,6 +25,7 @@ const PokeCard = ({ pokemon }) => {
   const getPokemon = async () => {
     const response = await fetch(`${pokemon.url}`);
     const data = await response.json();
+    console.log(data);
     setPokemons({
       pokemon: data,
     });
@@ -30,15 +34,6 @@ const PokeCard = ({ pokemon }) => {
   const goToDetail = () => {
     navigate(`/detail/${pokemons.pokemon.name}`);
   };
-
-  const useStyles = makeStyles({
-    root: {
-      maxWidth: 345,
-    },
-    media: {
-      height: 140,
-    },
-  });
 
   const classes = useStyles();
 
@@ -53,11 +48,33 @@ const PokeCard = ({ pokemon }) => {
           />
         ) : null}
       </CardContent>
-      <CardActions>
-        <Button onClick={goToDetail} size="small">
-          Detail
-        </Button>
-      </CardActions>
+      <Typography gutterBottom variant="h4" component="h2">
+        {pokemons.pokemon.name}
+      </Typography>
+      <Box bgcolor={"white"}>
+        <Typography gutterBottom variant="h6" component="h6">
+          Abilities :
+        </Typography>
+        {pokemons.pokemon.abilities &&
+          pokemons.pokemon.abilities.map((ability) => (
+            <Typography gutterBottom variant="h6" component="h6">
+              {ability.ability.name}
+            </Typography>
+          ))}
+      </Box>
+
+      <Grid container justify="center">
+        <CardActions>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={goToDetail}
+            size="small"
+          >
+            Detail
+          </Button>
+        </CardActions>
+      </Grid>
     </Card>
   );
 };
