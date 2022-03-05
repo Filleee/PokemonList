@@ -18,6 +18,7 @@ export function* doGetCatchChance() {
     yield put(setCatchChance(response.data));
   } catch (error) {
     console.log(error);
+    yield put(setCatchChance("Error"));
   }
 }
 

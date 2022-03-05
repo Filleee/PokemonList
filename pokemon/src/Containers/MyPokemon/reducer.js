@@ -1,9 +1,16 @@
-import { SET_RENAME, SET_RELEASE_CHANCE, CATCH, RELEASE } from "./constants";
+import {
+  SET_RENAME,
+  SET_RELEASE_CHANCE,
+  CATCH,
+  RELEASE,
+  ERROR_MY_POKEMON,
+} from "./constants";
 import produce from "immer";
 
 export const initialState = {
   myPokemon: [],
   releaseChance: null,
+  error: null,
 };
 
 let lastId = 0;
@@ -58,6 +65,9 @@ const pokemonReducer = (state = initialState, action) =>
         );
         if (index2 !== -1) draft.myPokemon.splice(index2, 1);
         lastId--;
+        break;
+      case ERROR_MY_POKEMON:
+        draft.error = action.error;
         break;
       default:
         return state;

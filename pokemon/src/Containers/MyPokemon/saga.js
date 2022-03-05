@@ -1,14 +1,14 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import { GET_RELEASE_CHANCE, GET_RENAME } from "./constants";
 import { getReleaseChance, getNewNickname } from "../../API";
-import { setReleaseChance, setRename } from "./actions";
+import { setReleaseChance, setRename, setError } from "./actions";
 
 export function* doGetReleaseChance() {
   try {
     const response = yield call(getReleaseChance);
     yield put(setReleaseChance(response.data));
   } catch (error) {
-    console.log(error);
+    yield put(setError(error));
   }
 }
 
@@ -23,7 +23,7 @@ export function* doGetNewNickname(pokemon) {
     );
     yield put(setRename(pokemon.pokemon.myPokemonId, response.data));
   } catch (error) {
-    console.log(error);
+    yield put(setError(error));
   }
 }
 

@@ -18,13 +18,16 @@ import {
   CardActions,
   CardContent,
   Typography,
+  Snackbar,
 } from "@material-ui/core";
+import MuiAlert from "@material-ui/lab/Alert";
 
 const PokemonDetail = () => {
   const { name } = useParams();
 
   const dispatch = useDispatch();
-  const [open, setOpen] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [openToast, setOpenToast] = useState(false);
   const [nickname, setNickname] = useState("");
   const detailPokemon = useSelector((state) => state.detail.detail);
   const catchChance = useSelector((state) => state.detail.catchChance);
@@ -35,9 +38,11 @@ const PokemonDetail = () => {
 
   useEffect(() => {
     if (catchChance === true) {
-      setOpen(true);
+      setOpenDialog(true);
     } else if (catchChance === false) {
       alert("catch failed...");
+    } else if (catchChance === "Error") {
+      setOpenToast(true);
     }
     if (catchChance !== null) dispatch(setCatchChance(null));
   }, [catchChance]);
@@ -47,11 +52,19 @@ const PokemonDetail = () => {
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setOpenDialog(false);
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenToast(false);
   };
 
   const handleCatchNickname = () => {
-    setOpen(false);
+    setOpenDialog(false);
     dispatch(setCatch(detailPokemon, nickname));
   };
 
@@ -108,7 +121,22 @@ const PokemonDetail = () => {
         </Box>
       )}
 
-      <Dialog open={open} onClose={handleClose}>
+      <Snackbar
+        open={openToast}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+      >
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          onClose={handleCloseSnackbar}
+          severity="error"
+        >
+          Request Error
+        </MuiAlert>
+      </Snackbar>
+
+      <Dialog open={openDialog} onClose={handleClose}>
         <DialogTitle>Catch Success!</DialogTitle>
         <DialogContent>
           <DialogContentText>Enter your pokemon nickname!</DialogContentText>

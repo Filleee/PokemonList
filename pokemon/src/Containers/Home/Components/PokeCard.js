@@ -25,7 +25,6 @@ const PokeCard = ({ pokemon }) => {
   const getPokemon = async () => {
     const response = await fetch(`${pokemon.url}`);
     const data = await response.json();
-    console.log(data);
     setPokemons({
       pokemon: data,
     });
@@ -57,13 +56,18 @@ const PokeCard = ({ pokemon }) => {
         </Typography>
         {pokemons.pokemon.abilities &&
           pokemons.pokemon.abilities.map((ability) => (
-            <Typography gutterBottom variant="h6" component="h6">
+            <Typography
+              key={ability.ability.name}
+              gutterBottom
+              variant="h6"
+              component="h6"
+            >
               {ability.ability.name}
             </Typography>
           ))}
       </Box>
 
-      <Grid container justify="center">
+      <Grid container justifyContent="center">
         <CardActions>
           <Button
             variant="contained"

@@ -5,6 +5,7 @@ import {
   GET_RELEASE_CHANCE,
   SET_RELEASE_CHANCE,
   CATCH,
+  ERROR_MY_POKEMON,
 } from "./constants";
 
 export const setCatch = (pokemon, nickname) => {
@@ -47,5 +48,12 @@ export const setRelease = (pokemonId) => {
   return {
     type: RELEASE,
     pokemonId,
+  };
+};
+
+export const setError = (error) => {
+  return {
+    type: ERROR_MY_POKEMON,
+    error,
   };
 };

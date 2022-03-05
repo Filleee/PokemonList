@@ -22,7 +22,7 @@ const Home = () => {
       <Grid container spacing={1}>
         {homePokemon.map((pokemon) => (
           <Grid key={pokemon.name} item xs={3}>
-            <PokeCard pokemon={pokemon} />
+            <PokeCard key={pokemon.name} pokemon={pokemon} />
           </Grid>
         ))}
       </Grid>

@@ -16,7 +16,9 @@ import {
   Typography,
   Grid,
   CardMedia,
+  Snackbar,
 } from "@material-ui/core";
+import MuiAlert from "@material-ui/lab/Alert";
 
 const useStyles = makeStyles({
   root: {
@@ -27,8 +29,18 @@ const useStyles = makeStyles({
 const MyPokemon = () => {
   const myPokemon = useSelector((state) => state.pokemon.myPokemon);
   const chance = useSelector((state) => state.pokemon.releaseChance);
+  const error = useSelector((state) => state.pokemon.error);
   const [releasePokemon, setReleasePokemon] = useState(0);
+  const [openToast, setOpenToast] = useState(false);
   const dispatch = useDispatch();
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenToast(false);
+  };
 
   const isPrime = (number) => {
     if (number <= 1) return false;
@@ -55,6 +67,13 @@ const MyPokemon = () => {
     }
     if (chance !== null) dispatch(setReleaseChance(null));
   }, [chance]);
+
+  useEffect(() => {
+    if (error !== null) {
+      setOpenToast(true);
+    }
+    if (chance !== null) dispatch(setReleaseChance(null));
+  }, [error]);
 
   const renamePokemon = (pokemon) => {
     dispatch(getRename(pokemon));
@@ -108,6 +127,21 @@ const MyPokemon = () => {
           </Grid>
         ))}
       </Grid>
+
+      <Snackbar
+        open={openToast}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+      >
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          onClose={handleCloseSnackbar}
+          severity="error"
+        >
+          Request Error
+        </MuiAlert>
+      </Snackbar>
     </div>
   );
 };
