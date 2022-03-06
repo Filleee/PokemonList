@@ -20,11 +20,12 @@ const Home = () => {
   return (
     <div style={{ marginTop: 20 }}>
       <Grid container spacing={1}>
-        {homePokemon.map((pokemon) => (
-          <Grid key={pokemon.name} item xs={3}>
-            <PokeCard key={pokemon.name} pokemon={pokemon} />
-          </Grid>
-        ))}
+        {homePokemon &&
+          homePokemon.map((pokemon) => (
+            <Grid key={pokemon.name} item xs={3}>
+              <PokeCard key={pokemon.name} pokemon={pokemon} />
+            </Grid>
+          ))}
       </Grid>
       <Button
         style={{ marginTop: 20 }}
